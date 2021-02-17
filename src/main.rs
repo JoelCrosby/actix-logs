@@ -1,24 +1,54 @@
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
+
 mod routes;
+mod schema;
+mod user;
+mod log_entry;
 
 use crate::routes::*;
 
 use actix_web::{web, App, HttpServer};
 use actix_web::middleware::Logger;
+use diesel::r2d2::{self, ConnectionManager};
+use diesel::PgConnection;
 use env_logger::Env;
+
+pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+
+fn get_db_connection_pool() -> Pool {
+    let database_url = std::env::var("DATABASE_URL")
+        .expect("Database connection string  not found.");
+
+    return Pool::builder()
+        .build(ConnectionManager::<PgConnection>::new(database_url))
+        .unwrap();
+}
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 
-    env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
+    dotenv::dotenv().ok();
+
+    let database_pool = get_db_connection_pool();
+
+    env_logger::Builder::from_env(
+        Env::default().default_filter_or("info")).init();
 
     HttpServer::new(|| {
         App::new()
+            .data(database_pool.clone())
             .wrap(Logger::default())
             .service(
-            // prefixes all resources and routes attached to it...
+
             web::scope("/api")
                 .service(get_logs)
                 .service(get_log)
+                .service(get_user)
+                .service(get_users)
+                .service(post_user)
         )
     })
     .bind("127.0.0.1:6600")?

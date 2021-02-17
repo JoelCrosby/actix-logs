@@ -1,0 +1,15 @@
+
+### GET Users
+GET http://localhost:6600/api/users HTTP/2.0
+
+### GET User by Id
+GET http://localhost:6600/api/users/12 HTTP/2.0
+
+### Post User
+POST http://localhost:6600/api/users HTTP/2.0
+content-type: application/json
+
+{
+    "email": "joel@netptune.co.uk",
+    "password": "Password101!"
+}
