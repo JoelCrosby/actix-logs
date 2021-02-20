@@ -1,19 +1,25 @@
 use serde::{Serialize, Deserialize};
 use super::schema::users;
 
-#[derive(Debug, Serialize, Deserialize, Queryable)]
+#[derive(Debug, Queryable)]
 pub struct UserEntity {
     pub id: i32,
     pub email: String,
     pub password: String,
-    pub created_at: String,
+    pub created_at: chrono::NaiveDateTime,
 }
 
-#[derive(Debug, Insertable, Deserialize)]
+#[derive(Debug, Insertable)]
 #[table_name = "users"]
 pub struct CreateUser<'a> {
     pub email: &'a str,
     pub password: &'a str,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CreateUserRequest {
+    pub email: String,
+    pub password: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

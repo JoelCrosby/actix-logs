@@ -10,6 +10,15 @@ POST http://localhost:6600/api/users HTTP/2.0
 content-type: application/json
 
 {
-    "email": "joel@netptune.co.uk",
-    "password": "Password101!"
+    "email": "user@email.com",
+    "password": "abcdefghijk"
+}
+
+### Login
+POST http://localhost:6600/api/login HTTP/2.0
+content-type: application/json
+
+{
+    "email": "user@email.com",
+    "password": "abcdefghijk"
 }

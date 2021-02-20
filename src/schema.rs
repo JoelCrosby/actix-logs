@@ -11,7 +11,7 @@ table! {
     log_entries (id) {
         id -> Integer,
         title -> Text,
-        serialised -> Json,
+        serialised -> Text,
         created_at -> Timestamp,
     }
 }

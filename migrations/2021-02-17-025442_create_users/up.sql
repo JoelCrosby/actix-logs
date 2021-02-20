@@ -4,3 +4,6 @@ CREATE TABLE users (
   password VARCHAR(256) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT Now()
 );
+
+CREATE UNIQUE INDEX users_email_unique
+ON users (email);

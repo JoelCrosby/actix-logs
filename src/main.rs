@@ -1,11 +1,16 @@
 #[macro_use]
 extern crate diesel;
 extern crate dotenv;
+extern crate argon2;
 
 mod routes;
 mod schema;
 mod user;
 mod log_entry;
+mod server_error;
+mod handlers;
+mod security;
+mod login;
 
 use crate::routes::*;
 
@@ -37,7 +42,7 @@ async fn main() -> std::io::Result<()> {
     env_logger::Builder::from_env(
         Env::default().default_filter_or("info")).init();
 
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
             .data(database_pool.clone())
             .wrap(Logger::default())
@@ -49,6 +54,7 @@ async fn main() -> std::io::Result<()> {
                 .service(get_user)
                 .service(get_users)
                 .service(post_user)
+                .service(user_login)
         )
     })
     .bind("127.0.0.1:6600")?
