@@ -3,15 +3,24 @@
 GET http://localhost:6600/api/users HTTP/2.0
 
 ### GET User by Id
-GET http://localhost:6600/api/users/12 HTTP/2.0
+GET http://localhost:6600/api/users/10 HTTP/2.0
 
 ### Post User
 POST http://localhost:6600/api/users HTTP/2.0
 content-type: application/json
 
 {
-    "email": "user@email.com",
+    "email": "test-user@email.com",
     "password": "abcdefghijk"
+}
+
+### Post User Bad Request
+POST http://localhost:6600/api/users HTTP/2.0
+content-type: application/json
+
+{
+    "emails": "test-user@email.com",
+    "passwords": "abcdefghijk"
 }
 
 ### Login
@@ -19,6 +28,6 @@ POST http://localhost:6600/api/login HTTP/2.0
 content-type: application/json
 
 {
-    "email": "user@email.com",
+    "email": "test-user@email.com",
     "password": "abcdefghijk"
 }

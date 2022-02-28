@@ -2,6 +2,7 @@
 extern crate diesel;
 extern crate dotenv;
 extern crate argon2;
+extern crate uuid;
 
 mod routes;
 mod schema;
@@ -11,11 +12,13 @@ mod server_error;
 mod handlers;
 mod security;
 mod login;
+mod auth;
+mod error;
 
 use crate::routes::*;
 
 use actix_web::{web, App, HttpServer};
-use actix_web::middleware::Logger;
+use actix_web::middleware;
 use diesel::r2d2::{self, ConnectionManager};
 use diesel::PgConnection;
 use env_logger::Env;
@@ -40,22 +43,23 @@ async fn main() -> std::io::Result<()> {
     let database_pool = get_db_connection_pool();
 
     env_logger::Builder::from_env(
-        Env::default().default_filter_or("info")).init();
+        Env::default()
+            .default_filter_or("info"))
+            .init();
 
     HttpServer::new(move || {
         App::new()
-            .data(database_pool.clone())
-            .wrap(Logger::default())
+            .app_data(web::Data::new(database_pool.clone()))
+            .wrap(middleware::Logger::default())
             .service(
-
-            web::scope("/api")
-                .service(get_logs)
-                .service(get_log)
-                .service(get_user)
-                .service(get_users)
-                .service(post_user)
-                .service(user_login)
-        )
+                web::scope("/api")
+                    .service(get_logs)
+                    .service(get_log)
+                    .service(get_user)
+                    .service(get_users)
+                    .service(post_user)
+                    .service(user_login)
+            )
     })
     .bind("127.0.0.1:6600")?
     .run()
