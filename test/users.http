@@ -1,6 +1,7 @@
 
 ### GET Users
 GET http://localhost:6600/api/users HTTP/2.0
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NDYxNzgzMTAsImV4cCI6MTY0NjE3ODM3MCwidWlkIjoidGVzdC11c2VyQGVtYWlsLmNvbSIsImxvZ2luX3Nlc3Npb24iOiI4MDdjMDEwOTJhMDA0NGVjYjE0ZDBhZjE3YWIzYmNlZSJ9.9xswIo1gmUlFKUVwg0yuCgKpkVaP9mGhQxZVPEtCGlE
 
 ### GET User by Id
 GET http://localhost:6600/api/users/10 HTTP/2.0

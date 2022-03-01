@@ -9,11 +9,7 @@
       "request": "launch",
       "name": "Debug executable 'actix-logs'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=actix-logs",
-          "--package=actix-logs"
-        ],
+        "args": ["build", "--bin=actix-logs", "--package=actix-logs"],
         "filter": {
           "name": "actix-logs",
           "kind": "bin"
