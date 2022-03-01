@@ -18,7 +18,7 @@ impl UserToken {
     pub fn create_jwt(login: &LoginInfo) -> Result<String, jsonwebtoken::errors::Error> {
         let now = Utc::now().timestamp_nanos() / 1_000_000_000;
         let expiration = Utc::now()
-            .checked_add_signed(chrono::Duration::seconds(60))
+            .checked_add_signed(chrono::Duration::hours(12))
             .expect("valid timestamp")
             .timestamp();
 
