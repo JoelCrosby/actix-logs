@@ -82,14 +82,14 @@ where
                 None => break,
             };
 
-            info!("connecting to database...");
+            debug!("connecting to database...");
 
             let authen_header = match request.headers().get(constants::AUTHORIZATION) {
                 Some(pool) => pool,
                 None => break,
             };
 
-            info!("parsing authorization header...");
+            debug!("parsing authorization header...");
 
             let authen_str = match authen_header.to_str() {
                 Ok(pool) => pool,
@@ -97,7 +97,7 @@ where
             };
 
             if authen_str.starts_with("bearer") || authen_str.starts_with("Bearer") {
-                info!("parsing token...");
+                debug!("parsing token...");
 
                 let token = authen_str[6..authen_str.len()].trim();
                 let token_data = match jwt::decode_jwt(&token.to_string()) {
@@ -105,10 +105,10 @@ where
                     Err(_) => break,
                 };
 
-                info!("decoding token...");
+                debug!("decoding token...");
 
                 if jwt::verify_jwt(&token_data, pool).is_ok() {
-                    info!("valid token");
+                    debug!("valid token");
                     authenticate_pass = true;
                 } else {
                     panic!("invalid token");
