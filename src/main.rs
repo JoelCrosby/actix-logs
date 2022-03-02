@@ -11,11 +11,9 @@ extern crate uuid;
 mod auth;
 mod constants;
 mod jwt;
-mod login;
 mod models;
 mod routes;
 mod security;
-mod server_error;
 
 use crate::routes::*;
 
@@ -24,12 +22,12 @@ use actix_web::{web, App, HttpServer};
 use diesel::r2d2::{self, ConnectionManager};
 use diesel::PgConnection;
 use env_logger::Env;
+use std::env;
 
 pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
 fn get_db_connection_pool() -> Pool {
-    let database_url =
-        std::env::var("DATABASE_URL").expect("Database connection string  not found.");
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL not found.");
 
     return Pool::builder()
         .build(ConnectionManager::<PgConnection>::new(database_url))
@@ -39,6 +37,10 @@ fn get_db_connection_pool() -> Pool {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
+
+    let app_host = env::var("APP_HOST").expect("APP_HOST not found.");
+    let app_port = env::var("APP_PORT").expect("APP_PORT not found.");
+    let app_url = format!("{}:{}", &app_host, &app_port);
 
     let database_pool = get_db_connection_pool();
 
@@ -59,7 +61,7 @@ async fn main() -> std::io::Result<()> {
                     .service(user_login),
             )
     })
-    .bind("127.0.0.1:6600")?
+    .bind(app_url)?
     .run()
     .await
 }

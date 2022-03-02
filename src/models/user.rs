@@ -1,4 +1,4 @@
-use crate::login::LoginRequest;
+use crate::models::login::LoginRequest;
 use crate::models::schema::users::{self, dsl::*};
 use crate::models::user_token::UserToken;
 use crate::security::{gen_password_hash, verify_password};

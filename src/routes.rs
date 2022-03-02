@@ -1,4 +1,4 @@
-use crate::login::LoginRequest;
+use crate::models::login::LoginRequest;
 use crate::models::user::CreateUserRequest;
 use crate::models::user::UserEntity;
 use crate::Pool;
