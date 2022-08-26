@@ -8,5 +8,7 @@
     "**/.DS_Store": true,
     "**/target": true
   },
-  "editor.defaultFormatter": "rust-lang.rust"
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  }
 }
