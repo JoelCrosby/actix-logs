@@ -1,7 +1,7 @@
 # build stage
 FROM rust:slim as build
 
-# install libpq, libsqlite and create new empty binary project
+# install libpq and create new empty binary project
 RUN apt-get update; \
     apt-get install --no-install-recommends -y libpq-dev; \
     rm -rf /var/lib/apt/lists/*; \
@@ -24,8 +24,8 @@ COPY ./diesel.toml .
 RUN touch .env;
 
 # rebuild app with project source
-RUN rm ./target/debug/deps/actix-logs*; \
-    cargo build
+RUN RUN rm ./target/debug/deps/actix-logs*; \
+    cargo build --release;
 
 # deploy stage
 FROM debian:buster-slim
@@ -40,13 +40,12 @@ RUN apt-get update; \
     rm -rf /var/lib/apt/lists/*
 
 # copy binary and configuration files
-COPY --from=build /app/target/debug/actix-logs .
+COPY --from=build /app/target/release/actix-logs .
 COPY --from=build /app/.env .
 COPY --from=build /app/diesel.toml .
-COPY ./wait-for-it.sh .
 
 # expose port
 EXPOSE 8000
 
 # run the binary
-CMD ["./wait-for-it.sh", "db:5432", "--", "/app/actix-logs"]
+CMD ["/app/actix-logs"]
