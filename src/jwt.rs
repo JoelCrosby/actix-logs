@@ -1,5 +1,5 @@
 use crate::constants;
-use crate::models::user::UserEntity;
+use crate::entities::user::UserEntity;
 use actix_web::web;
 use jsonwebtoken::{decode, DecodingKey, TokenData, Validation};
 use serde::Serialize;

@@ -1,5 +1,5 @@
+use crate::entities::schema::users::{self, dsl::*};
 use crate::models::login::LoginRequest;
-use crate::models::schema::users::{self, dsl::*};
 use crate::models::user_token::UserToken;
 use crate::security::{gen_password_hash, verify_password};
 use crate::Pool;
@@ -146,6 +146,6 @@ impl UserEntity {
     }
 
     pub fn generate_login_session() -> String {
-        Uuid::new_v4().to_simple().to_string()
+        Uuid::new_v4().as_simple().to_string()
     }
 }

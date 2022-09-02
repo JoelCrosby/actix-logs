@@ -1,5 +1,5 @@
 use crate::constants;
-use crate::models::user::LoginInfo;
+use crate::entities::user::LoginInfo;
 
 use chrono::Utc;
 use jsonwebtoken::encode;

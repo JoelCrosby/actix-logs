@@ -10,6 +10,7 @@ extern crate uuid;
 
 mod auth;
 mod constants;
+mod entities;
 mod jwt;
 mod models;
 mod routes;
