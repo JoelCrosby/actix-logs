@@ -4,7 +4,7 @@ GET http://localhost:6600/api/users HTTP/2.0
 Authorization: {{token}}
 
 ### GET User by Id
-GET http://localhost:6600/api/users/10 HTTP/2.0
+GET http://localhost:6600/api/users/1 HTTP/2.0
 Authorization: {{token}}
 
 ### Post User
