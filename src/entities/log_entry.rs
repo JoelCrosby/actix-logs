@@ -67,7 +67,9 @@ impl LogEntryEntity {
     pub fn get(pool: web::Data<Pool>) -> Result<Vec<LogEntry>, Error> {
         let db_connection = pool.get()?;
 
-        let data = log_entries.load::<LogEntryEntity>(&db_connection)?;
+        let data = log_entries
+            .order_by(created_at.desc())
+            .load::<LogEntryEntity>(&db_connection)?;
 
         let result = data
             .into_iter()

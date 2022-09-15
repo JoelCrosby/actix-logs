@@ -55,6 +55,7 @@ async fn main() -> std::io::Result<()> {
                     // logs
                     .service(routes::logs::get)
                     .service(routes::logs::get_by_id)
+                    .service(routes::logs::create)
                     // users
                     .service(routes::users::get)
                     .service(routes::users::get_by_id)

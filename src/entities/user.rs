@@ -79,7 +79,9 @@ impl UserEntity {
     pub fn get(pool: web::Data<Pool>) -> Result<Vec<User>, Error> {
         let db_connection = pool.get()?;
 
-        let data = users.load::<UserEntity>(&db_connection)?;
+        let data = users
+            .order_by(created_at.desc())
+            .load::<UserEntity>(&db_connection)?;
 
         let result = data
             .into_iter()
