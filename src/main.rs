@@ -16,8 +16,6 @@ mod models;
 mod routes;
 mod security;
 
-use crate::routes::*;
-
 use actix_web::middleware;
 use actix_web::{web, App, HttpServer};
 use diesel::r2d2::{self, ConnectionManager};
@@ -54,12 +52,15 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             .service(
                 web::scope("/api")
-                    .service(get_logs)
-                    .service(get_log)
-                    .service(get_user)
-                    .service(get_users)
-                    .service(post_user)
-                    .service(user_login),
+                    // logs
+                    .service(routes::logs::get)
+                    .service(routes::logs::get_by_id)
+                    // users
+                    .service(routes::users::get)
+                    .service(routes::users::get_by_id)
+                    // auth
+                    .service(routes::auth::register)
+                    .service(routes::auth::login),
             )
     })
     .bind(app_url)?

@@ -1,7 +1,8 @@
 
 ### GET Logs
 GET http://localhost:6600/api/logs HTTP/2.0
-
+Authorization: {{token}}
 
 ### GET Log by Id
 GET http://localhost:6600/api/logs/12 HTTP/2.0
+Authorization: {{token}}

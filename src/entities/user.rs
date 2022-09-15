@@ -50,7 +50,7 @@ pub struct LoginInfo {
 }
 
 impl UserEntity {
-    pub fn create_user(
+    pub fn create(
         pool: web::Data<Pool>,
         user: web::Json<CreateUserRequest>,
     ) -> Result<User, Error> {
@@ -76,7 +76,7 @@ impl UserEntity {
         Ok(result)
     }
 
-    pub fn users(pool: web::Data<Pool>) -> Result<Vec<User>, Error> {
+    pub fn get(pool: web::Data<Pool>) -> Result<Vec<User>, Error> {
         let db_connection = pool.get()?;
 
         let data = users.load::<UserEntity>(&db_connection)?;
@@ -89,6 +89,20 @@ impl UserEntity {
                 created_at: row.created_at.to_string(),
             })
             .collect();
+
+        Ok(result)
+    }
+
+    pub fn get_by_id(pool: web::Data<Pool>, entity_id: web::Path<i32>) -> Result<User, Error> {
+        let db_connection = pool.get()?;
+
+        let data: UserEntity = users.find(&entity_id.into_inner()).first(&db_connection)?;
+
+        let result = User {
+            id: data.id,
+            email: data.email,
+            created_at: data.created_at.to_string(),
+        };
 
         Ok(result)
     }
@@ -127,20 +141,6 @@ impl UserEntity {
             .filter(login_session.eq(&user_token.login_session))
             .get_result::<UserEntity>(&db_connection)
             .is_ok();
-
-        Ok(result)
-    }
-
-    pub fn get_user_by_id(pool: web::Data<Pool>, entity_id: web::Path<i32>) -> Result<User, Error> {
-        let db_connection = pool.get()?;
-
-        let data: UserEntity = users.find(&entity_id.into_inner()).first(&db_connection)?;
-
-        let result = User {
-            id: data.id,
-            email: data.email,
-            created_at: data.created_at.to_string(),
-        };
 
         Ok(result)
     }

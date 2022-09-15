@@ -10,5 +10,10 @@
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "rest-client.environmentVariables": {
+    "actix-logs": {
+      "token": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjMyMDI1NjMsImV4cCI6MTY2MzI0NTc2MywidWlkIjoidGVzdC11c2VyQGVtYWlsLmNvbSIsImxvZ2luX3Nlc3Npb24iOiJkZTRkZDVkNmFkNWE0NTRmYjE3NDY0Y2JhOTNmNzJiNSJ9.BVnHOFJ6ujsWKHUn_xifqwwLlXzOCQk3lwfcHE8t-pM"
+    }
   }
 }
